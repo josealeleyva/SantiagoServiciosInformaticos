@@ -16,9 +16,9 @@ router.get('/ventas', (req , res) => {
 });
 
 router.get('/ventas/listP', (req , res) => {
-    connection.query('SELECT * FROM proveedores', (err, result) => {
+    connection.query('SELECT * FROM presupuestocompra WHERE PoC = 0', (err, result) => {
         res.render('listarPresupuestos.html',{
-            prov: result
+            presup: result
         });
     })
 });

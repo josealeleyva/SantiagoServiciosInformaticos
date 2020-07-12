@@ -18,45 +18,29 @@
                         <div class="card-body">
                             <div class="row text-center font-weight-bold">
                                 <div class="col-sm">
-                                    Código
+                                    Código 
                                 </div>
                                 <div class="col-sm">
-                                    Proveedor
+                                    Fecha
                                 </div>
                                 <div class="col-sm">
-                                    Dirección
-                                </div>
-                                <div class="col-sm">
-                                    Mail
-                                </div>
-                                <div class="col-sm">
-                                    Teléfono
-                                </div>
-                                <div class="col-sm">
-                                    Tipo de producto
+                                    Monto Total
                                 </div>
                             </div>
-                            <% for(var i=0; i < prov.length; i++){ %>
+                            <% if(presup != null){ %>
+                            <% for(var i=0; i < presup.length; i++){ %>
                             <div class="row text-center border-top border-info">
                                 <div class="col-sm ">
-                                    <%= prov[i].CodigoProveedor %>
+                                    <%= presup[i].codigoTransaccion %>
                                 </div>
                                 <div class="col-sm">
-                                    <%= prov[i].NombreProveedor %>
+                                    <%= presup[i].fechaTransaccion %>
                                 </div>
                                 <div class="col-sm">
-                                    <%= prov[i].DireccionProveedor %>
-                                </div>
-                                <div class="col-sm">
-                                    <%= prov[i].MailProveedor %>
-                                </div>
-                                <div class="col-sm">
-                                    <%= prov[i].TelefonoProveedor %>
-                                </div>
-                                <div class="col-sm">
-                                    Redes
+                                    <%= presup[i].montoTotal %>
                                 </div>
                             </div>
+                            <% } %>
                             <% } %>
                         </div>
                     </div>
