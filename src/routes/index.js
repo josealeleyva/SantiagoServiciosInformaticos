@@ -11,13 +11,13 @@ router.get('/', (req , res) => {
     //res.render('index.html',{title: 'hola'}) //para mandar un parametro en forma de objeto, este caso titulo
 });
 
-router.get('/ventas', (req , res) => {
-    res.render('ventas.html');
+router.get('/vyp', (req , res) => {
+    res.render('ventas-presupuestos.html');
 });
 
-router.get('/ventas/listP', (req , res) => {
+router.get('/ventas/presup', (req , res) => {
     connection.query('SELECT * FROM presupuestocompra WHERE PoC = 0', (err, result) => {
-        res.render('listarPresupuestos.html',{
+        res.render('presupuestos.html',{
             presup: result
         });
     })
