@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('partials/head.html'); %>
+</head>
+
+<body>
+    <%- include('partials/barraNavegacion.html'); %>
+    <div class="vh-100 w-100 mt-5 p-4 seccionPrincipal">
+        <div class="container p-3">
+            <div class="row justify-content-center">
+                <div class="col-sm">
+                    <div class="card animate__animated animate__flipInY">
+                        <div class="card-header bg-info text-white text-center">
+                            <h4>Lista de Presupuestos</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row text-center font-weight-bold">
+                                <div class="col-sm">
+                                    Código
+                                </div>
+                                <div class="col-sm">
+                                    Proveedor
+                                </div>
+                                <div class="col-sm">
+                                    Dirección
+                                </div>
+                                <div class="col-sm">
+                                    Mail
+                                </div>
+                                <div class="col-sm">
+                                    Teléfono
+                                </div>
+                                <div class="col-sm">
+                                    Tipo de producto
+                                </div>
+                            </div>
+                            <% for(var i=0; i < prov.length; i++){ %>
+                            <div class="row text-center border-top border-info">
+                                <div class="col-sm ">
+                                    <%= prov[i].CodigoProveedor %>
+                                </div>
+                                <div class="col-sm">
+                                    <%= prov[i].NombreProveedor %>
+                                </div>
+                                <div class="col-sm">
+                                    <%= prov[i].DireccionProveedor %>
+                                </div>
+                                <div class="col-sm">
+                                    <%= prov[i].MailProveedor %>
+                                </div>
+                                <div class="col-sm">
+                                    <%= prov[i].TelefonoProveedor %>
+                                </div>
+                                <div class="col-sm">
+                                    Redes
+                                </div>
+                            </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('partials/piePagina.html'); %>
+    <%- include('partials/scriptsFondo.html'); %>
+</body>
+
+</html>

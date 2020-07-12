@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <%- include('partials/head.html'); %>
+</head>
+
+<body>
+    <%- include('partials/barraNavegacion.html'); %>
+    <div class="vh-100 w-100 mt-5 p-4 seccionPrincipal">
+        <div class="container p-3">
+            <div class="row justify-content-center">
+                <div class="col-sm">
+                    <div class="card animate__animated animate__flipInY">
+                        <div class="card-header bg-info text-white text-center">
+                            <h4>Registrar Presupuesto</h4>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Aquí se registran los presupuesto nuevos en el sistema, estos tienen una vigencia de 3 (tres) días.</p>
+                            <a href="#" class="btn btn-primary btn-block">Ingresar</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="card animate__animated animate__flipInY">
+                        <div class="card-header bg-info text-white text-center">
+                            <h4>Registrar Venta</h4>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Aquí se registran las ventas nuevas en el sistema, con y sin presupuesto generando una factura.</p>
+                            <a href="/ventas/listP" class="btn btn-primary btn-block">Ingresar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container p-3">
+            <div class="row justify-content-center">
+                <div class="col-sm">
+                    <div class="card animate__animated animate__flipInY">
+                        <div class="card-header bg-info text-white text-center">
+                            <h4>Lista de Presupuestos</h4>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Un listado de los presupuestos activos.</p>
+                            <a href="#" class="btn btn-primary btn-block">Ingresar</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="card animate__animated animate__flipInY">
+                        <div class="card-header bg-info text-white text-center">
+                            <h4>Lista de Ventas</h4>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Un listado de todas las ventas registradas en el sistema.</p>
+                            <a href="#" class="btn btn-primary btn-block">Ingresar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    <%- include('partials/piePagina.html'); %>
+    <%- include('partials/scriptsFondo.html'); %>
+</body>
+
+</html>

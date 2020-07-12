@@ -1,0 +1,9 @@
+.seccionPrincipal{
+    background: #abf0e9 url(../img/fondo.png) no-repeat 0 0;
+    background-size: cover;
+    background-position: center;
+}
+.imagenLogo{
+    max-width: 160;
+    max-height: 39.72px;
+}
