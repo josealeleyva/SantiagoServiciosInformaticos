@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-07-2020 a las 18:15:51
+-- Tiempo de generación: 13-07-2020 a las 03:08:29
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.6
 
@@ -147,7 +147,7 @@ CREATE TABLE `inventario` (
 
 CREATE TABLE `pedidoproveedor` (
   `codigoPedido` int(11) NOT NULL,
-  `fechaPedido` date DEFAULT NULL,
+  `fechaPedido` timestamp NULL DEFAULT current_timestamp(),
   `estado` int(11) DEFAULT NULL,
   `montoTotal` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -160,9 +160,9 @@ CREATE TABLE `pedidoproveedor` (
 
 CREATE TABLE `presupuestocompra` (
   `codigoTransaccion` int(11) NOT NULL,
-  `fechaTransaccion` date DEFAULT NULL,
+  `fechaTransaccion` timestamp NULL DEFAULT current_timestamp(),
   `montoTotal` float DEFAULT NULL,
-  `fechaEntrega` date DEFAULT NULL,
+  `fechaEntrega` timestamp NULL DEFAULT current_timestamp(),
   `tipoPago` int(11) DEFAULT NULL,
   `codigoCliente` int(11) DEFAULT NULL,
   `codigoEmpleado` int(11) DEFAULT NULL,
@@ -189,7 +189,8 @@ CREATE TABLE `proveedores` (
 --
 
 INSERT INTO `proveedores` (`CodigoProveedor`, `NombreProveedor`, `DireccionProveedor`, `MailProveedor`, `TelefonoProveedor`, `TipoProductos`) VALUES
-(1, 'Redes Santiago', 'Buenos Aires 1100', 'redessantiago@gmail.com', 385424363, 1);
+(1, 'Redes Santiago', 'Buenos Aires 1100', 'redessantiago@gmail.com', 385424363, 1),
+(2, 'YourSystem', 'Moreno 1000', 'yoursystem@gmail.com', 385422696, 2);
 
 --
 -- Índices para tablas volcadas
@@ -299,7 +300,7 @@ ALTER TABLE `presupuestocompra`
 -- AUTO_INCREMENT de la tabla `proveedores`
 --
 ALTER TABLE `proveedores`
-  MODIFY `CodigoProveedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `CodigoProveedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restricciones para tablas volcadas
