@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const bodyParser = require('body-parser');
+const morgan = require('morgan');
 
 
 
@@ -14,7 +16,9 @@ app.set('views engine', 'ejs');
 app.use(require('./routes/index'));
 
 //middlewares
-
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+app.use(morgan('dev'))
 
 //archivos estaticos
 app.use(express.static(path.join(__dirname,'public')))

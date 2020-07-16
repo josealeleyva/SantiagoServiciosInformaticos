@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('partials/head.html'); %>
+</head>
+
+<body>
+    <%- include('partials/barraNavegacion.html'); %>
+    <div class="w-100 mt-5 p-4 seccionPrincipal">
+        <div class="container pt-3">
+            <div class="row justify-content-center">
+                <div class="col-sm-8">
+                    <div class="card animate__animated animate__flipInY">
+                        <div class="card-header bg-info text-white text-center">
+                            <h4>Catálogo</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row text-center font-weight-bold">
+                                <div class="col-sm">
+                                    Código
+                                </div>
+                                <div class="col-sm-2">
+                                    Nombre
+                                </div>
+                                <div class="col-sm-4">
+                                    Descripción
+                                </div>
+                                <div class="col-sm">
+                                    Precio compra
+                                </div>
+                                <div class="col-sm">
+                                    Precio Venta
+                                </div>
+                                <div class="col-sm">
+                                    Proveedor
+                                </div>
+                            </div>
+                            <% if(cat != null){ %>
+                            <% for(var i=0; i < cat.length; i++){ %>
+                            <div class="row text-center border-top border-info">
+                                <div class="col-sm ">
+                                    <%= cat[i].codigoCatalogo %>
+                                </div>
+                                <div class="col-sm-2">
+                                    <%= cat[i].nombreProducto %>
+                                </div>
+                                <div class="col-sm-4">
+                                    <%= cat[i].descripcionProducto %>
+                                </div>
+                                <div class="col-sm ">
+                                    <p>$<%= cat[i].precioProductiLista %>.00</p>
+                                </div>
+                                <div class="col-sm ">
+                                    <p>$<%= cat[i].precioProductoVenta %>.00</p>
+                                </div>
+                                <div class="col-sm ">
+                                    <%= cat[i].codigoProveedor %>
+                                </div>
+                            </div>
+                            <% } %>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="card animate__animated animate__flipInY">
+                        <div class="card-header bg-info text-white text-center">
+                            <h4>Nuevo producto</h4>
+                        </div>
+                        <div class="card-body">
+                            <form action="/catalogo" method="POST">
+                                <div class="form-group">
+                                    <label for="nombp">Nombre del Producto</label>
+                                    <input type="text" class="form-control" id="nombreprod" name="nombreProducto">
+                                </div>
+                                <div class="form-group">
+                                    <label for="descp">Descripcion del Producto</label>
+                                    <input type="text" class="form-control" id="descprod" name="descripcionProducto">
+                                </div>
+                                <div class="form-group">
+                                    <label for="precCP">Precio de compra</label>
+                                    <input type="number" step="0.01" class="form-control" id="precCP"
+                                        name="precioProductiLista">
+                                </div>
+                                <div class="form-group">
+                                    <label for="precVP">Precio de venta</label>
+                                    <input type="number" step="0.01" class="form-control" id="precVP"
+                                        name="precioProductoVenta">
+                                </div>
+                                <div class="form-group">
+                                    <label for="lsitaproductos">Seleccione el proveedor</label>
+                                    <select class="form-control" id="provseleccionado" name="codigoProveedor">
+                                        <% if(prov != null){ %>
+                                        <% for(var i=0; i < prov.length; i++){ %>
+                                        <option>
+                                            <div class="col-sm ">
+                                                <p><%= prov[i].CodigoProveedor %> </p>
+                                            </div>
+                                            <div class="col-sm">
+                                                <p> <%= prov[i].NombreProveedor %> </p>
+                                            </div>
+                                        </option>
+                                        <% } %>
+                                        <% } %>
+                                    </select>
+                                </div>
+                                <input type="submit" class="form-control btn btn-primary btn-block" id="registrarProv">
+                            </form>
+                            <!--<form action="/reg" method="POST">
+                                <input type="text" name="nombreProducto" id="nomp" required>
+                                <input type="text" name="descProducto" id="descp" required>
+                                <input type="submit" class="form-control btn btn-primary btn-block">
+                            </form>>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <%- include('partials/piePagina.html'); %>
+    <%- include('partials/scriptsFondo.html'); %>
+</body>
+
+</html>

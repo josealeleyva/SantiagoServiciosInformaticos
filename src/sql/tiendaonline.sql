@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-07-2020 a las 03:08:29
+-- Tiempo de generación: 16-07-2020 a las 22:09:26
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.6
 
@@ -41,7 +41,9 @@ CREATE TABLE `catalogo` (
 --
 
 INSERT INTO `catalogo` (`codigoCatalogo`, `nombreProducto`, `descripcionProducto`, `precioProductoVenta`, `codigoProveedor`, `precioProductiLista`) VALUES
-(1, 'Router TP-Link', 'Reouter de 300mb con doble antena', 800, 1, 650);
+(1, 'Router TP-Link', 'Reouter de 300mb con doble antena', 800, 1, 650),
+(2, 'TV Samsung 32\"º', 'televisior led samsung modelo smg32p', 30000, 2, 22000),
+(3, 'Mother Asus B-250', 'Placa madre asus chipset 1151', 4500, 3, 2850);
 
 -- --------------------------------------------------------
 
@@ -190,7 +192,8 @@ CREATE TABLE `proveedores` (
 
 INSERT INTO `proveedores` (`CodigoProveedor`, `NombreProveedor`, `DireccionProveedor`, `MailProveedor`, `TelefonoProveedor`, `TipoProductos`) VALUES
 (1, 'Redes Santiago', 'Buenos Aires 1100', 'redessantiago@gmail.com', 385424363, 1),
-(2, 'YourSystem', 'Moreno 1000', 'yoursystem@gmail.com', 385422696, 2);
+(2, 'YourSystem', 'Moreno 1000', 'yoursystem@gmail.com', 385422696, 2),
+(3, 'InformaticaRepuestos', 'Saenz Peña 240', 'asd@gmail.com', 422359, 3);
 
 --
 -- Índices para tablas volcadas
@@ -264,7 +267,7 @@ ALTER TABLE `proveedores`
 -- AUTO_INCREMENT de la tabla `catalogo`
 --
 ALTER TABLE `catalogo`
-  MODIFY `codigoCatalogo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `codigoCatalogo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `clientes`
@@ -300,7 +303,7 @@ ALTER TABLE `presupuestocompra`
 -- AUTO_INCREMENT de la tabla `proveedores`
 --
 ALTER TABLE `proveedores`
-  MODIFY `CodigoProveedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `CodigoProveedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Restricciones para tablas volcadas
