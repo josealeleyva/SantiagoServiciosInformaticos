@@ -196,11 +196,20 @@ router.get('/vyp/ventas/:id', isLoggedIn, (req, res) => {
 
 router.post('/registrarVenta', urlencodedParser, (req, res) => {
 
-    PoC.insertV(req.body,(err, result) => {
+    PoC.insertV(req.body, (err, result) => {
         PoC.insertDV((err, resultado) => {
-            req.flash('guardadoCorrectamente', 'Presupuesto guardado correctamente!');
+            req.flash('guardadoCorrectamente', 'Venta guardada correctamente!');
             res.redirect('/vyp/ventas');
         });
+    });
+
+});
+
+router.post('/registrarVxP', urlencodedParser, (req, res) => {
+
+    PoC.insertVxP(req.body, (err, result) => {
+        req.flash('guardadoCorrectamente', 'Venta guardada correctamente!');
+        res.redirect('/vyp/ventas');
     });
 
 });

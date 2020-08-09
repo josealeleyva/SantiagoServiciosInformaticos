@@ -312,4 +312,35 @@ presupuestocompra.insertV = (venta, callback) => {
     };
 };
 
+presupuestocompra.insertVxP = (ventaxpresupuesto, callback) => {
+    if (connection) {
+
+        var tipoPago = ventaxpresupuesto.formapago.split(" ");
+        var codigoCliente = ventaxpresupuesto.clienteselect.split(" ");
+        var fechaActual = new Date();
+        var codigoPresupuesto = ventaxpresupuesto.presupuestoSeleccionado.split(" ");
+
+        var valores = {
+
+            fechaTransaccion: fechaActual,
+            fechaEntrega: ventaxpresupuesto.fechaEntrega,
+            tipoPago: tipoPago[0],
+            codigoCliente: codigoCliente[0],
+            codigoEmpleado: ventaxpresupuesto.empleado,
+            PoC: 1
+        }
+
+        
+        connection.query('UPDATE presupuestocompra set ? WHERE codigoTransaccion = ?', [valores, codigoPresupuesto[0]],
+            (err, result) => {
+                if (err) {
+                    throw err
+                }
+                else {
+                    callback(null, result);
+                }
+            }
+        );
+    };
+};
 module.exports = presupuestocompra;
