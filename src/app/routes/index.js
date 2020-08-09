@@ -37,14 +37,6 @@ router.get('/logout', isLoggedIn, (req, res) => {
     res.redirect('/');
 });
 
-/*
-router.post('/loguin', urlencodedParser, passport.authenticate('local.singin', {
-        successRedirect: '/menu',
-        failureRedirect: '/',
-        failureFlash: True
-    })
-);
-*/
 
 //------MENU
 router.get('/menu', isLoggedIn, (req, res) => {
@@ -58,6 +50,8 @@ router.get('/vyp', isLoggedIn, (req, res) => {
 router.get('/perfil', isLoggedIn, (req, res) => {
     res.render('perfil.html')
 });
+
+
 
 //------CATALOGO
 router.get('/catalogo', isLoggedIn, (req, res) => {
@@ -73,21 +67,48 @@ router.get('/catalogo', isLoggedIn, (req, res) => {
 
 
 router.post('/catalogo', urlencodedParser, (req, res) => {
-    const a = req.body;
-    catalogo.insert(a, (err, result) => {
-        req.flash('guardadoCorrectamente', 'Producto guardado correctamente!');
+
+    if (req.body.nombreProducto.length > 0) {
+        if (req.body.descripcionProducto.length > 0) {
+            if (req.body.precioProductiLista.length > 0) {
+                if (req.body.precioProductoVenta.length > 0) {
+                    const a = req.body;
+                    catalogo.insert(a, (err, result) => {
+                        req.flash('guardadoCorrectamente', 'Producto guardado correctamente!');
+                        res.redirect('/catalogo');
+                    });
+                } else {
+                    req.flash('error', 'Debe ingresar el precio de venta del producto');
+                    res.redirect('/catalogo');
+                }
+            } else {
+                req.flash('error', 'Debe ingresar el precio de compra del producto');
+                res.redirect('/catalogo');
+            }
+        } else {
+            req.flash('error', 'Debe ingresar la descripcíon del producto');
+            res.redirect('/catalogo');
+        }
+    } else {
+        req.flash('error', 'Debe ingresar el  nombre del producto');
         res.redirect('/catalogo');
-    });
+    }
+
 });
 
 
 
 //-------PRESUPUESTOS
 router.post('/inListAP', urlencodedParser, (req, res) => {
-    const a = req.body;
-    PoC.insertlistAP(a, (result) => {
+    if (req.body.cantidadAdquirida.length > 0) {
+        const a = req.body;
+        PoC.insertlistAP(a, (result) => {
+            res.redirect('/vyp/presupuestos');
+        });
+    } else {
+        req.flash('error', 'Debe ingresar la cantidad del producto');
         res.redirect('/vyp/presupuestos');
-    });
+    }
 });
 
 router.post('/delListAP', urlencodedParser, (req, res) => {
@@ -98,12 +119,18 @@ router.post('/delListAP', urlencodedParser, (req, res) => {
 });
 
 router.post('/registrarPresup', urlencodedParser, (req, res) => {
-
-    PoC.insertP((err, result) => {
-        PoC.insertDP((err, resultado) => {
-            req.flash('guardadoCorrectamente', 'Presupuesto guardado correctamente!');
+    PoC.getlistAP((listaAP) => {
+        if(listaAP.length > 0){
+            PoC.insertP((err, result) => {
+                PoC.insertDP((err, resultado) => {
+                    req.flash('guardadoCorrectamente', 'Presupuesto guardado correctamente!');
+                    res.redirect('/vyp/presupuestos');
+                });
+            });
+        }else {
+            req.flash('error', 'Debe agregar al menos un producto en el presupuesto');
             res.redirect('/vyp/presupuestos');
-        });
+        }
     });
 });
 
@@ -133,10 +160,15 @@ router.get('/vyp/presupuestos', isLoggedIn, (req, res) => {
 
 //-------VENTAS
 router.post('/inListAPV', urlencodedParser, (req, res) => {
-    const a = req.body;
-    PoC.insertlistAP(a, (result) => {
+    if (req.body.cantidadAdquirida.length > 0) {
+        const a = req.body;
+        PoC.insertlistAP(a, (result) => {
+            res.redirect('/vyp/ventas');
+        });
+    } else {
+        req.flash('error', 'Debe ingresar la cantidad del producto');
         res.redirect('/vyp/ventas');
-    });
+    }
 });
 
 router.post('/delListAPV', urlencodedParser, (req, res) => {
@@ -196,21 +228,38 @@ router.get('/vyp/ventas/:id', isLoggedIn, (req, res) => {
 
 router.post('/registrarVenta', urlencodedParser, (req, res) => {
 
-    PoC.insertV(req.body, (err, result) => {
-        PoC.insertDV((err, resultado) => {
-            req.flash('guardadoCorrectamente', 'Venta guardada correctamente!');
+    PoC.getlistAP((listaAP) => {
+        if(listaAP.length > 0){
+            if(req.body.fechaEntrega.length > 0){
+                PoC.insertV(req.body, (err, result) => {
+                    PoC.insertDV((err, resultado) => {
+                        req.flash('guardadoCorrectamente', 'Venta guardada correctamente!');
+                        res.redirect('/vyp/ventas');
+                    });
+                });
+            }else{
+                req.flash('error', 'Debe ingresar la fecha de entrega');
+                res.redirect('/vyp/ventas');
+            }
+        }else{
+            req.flash('error', 'Debe ingresar al menos un producto en la lista a vender');
             res.redirect('/vyp/ventas');
-        });
+        }
     });
 
 });
 
 router.post('/registrarVxP', urlencodedParser, (req, res) => {
-
-    PoC.insertVxP(req.body, (err, result) => {
-        req.flash('guardadoCorrectamente', 'Venta guardada correctamente!');
-        res.redirect('/vyp/ventas');
-    });
+    
+    if(req.body.fechaEntrega.length > 0){
+        PoC.insertVxP(req.body, (err, result) => {
+            req.flash('guardadoCorrectamente', 'Venta guardada correctamente!');
+            res.redirect('/vyp/ventas');
+        });
+    }else {
+        req.flash('error', 'Debe ingresar la fecha de entrega');
+            res.redirect('/vyp/ventas');
+    }
 
 });
 
