@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+  <%- include('partials/head.html'); %>
+
+</head>
+
+<body>
+  <%- include('partials/barraNavegacion.html'); %>
+  <div class="vh-100 w-100 mt-5 p-4 seccionPrincipal">
+
+    <%- include('partials/mensajes.html'); %>
+
+    <div class="container p-5">
+      <div class="row justify-content-center">
+        <div class="col-lg">
+          <div class="card animate__animated animate__flipInX">
+            <div class="card-header">
+              <h4><%= usuario.nombreEmpleado %> <%= usuario.apellidoEmpleado %></h4>
+            </div>
+            <div class="card-body">
+                <h5>Dirección: <%= usuario.direccionEmpleado %></h5>
+                <h5>Telefono: <%= usuario.telefonoEmpleado %></h5>
+                <h5>Mail: <%= usuario.mailEmpleado %></h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%- include('partials/piePagina.html'); %>
+  <%- include('partials/scriptsFondo.html'); %>
+</body>
+
+</html>

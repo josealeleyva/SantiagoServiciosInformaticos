@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('partials/head.html'); %>
+</head>
+
+<body>
+    <%- include('partials/barraNavegacion.html'); %>
+    <div class="w-100 mt-5 py-4 seccionPrincipal">
+
+        <%- include('partials/mensajes.html'); %>
+
+        <div class="container py-3">
+            <div class="row justify-content-center">
+
+                <!--TARJETA DEL LADO IZQUIERDO, LISTA DE VENTAS-->
+                <div class="col-lg mb-2">
+                    <div class="card animate__animated animate__flipInY">
+
+                        <!--Cabeza de la tarjeta-->
+                        <div class="card-header bg-info text-white text-center">
+                            <h4>Lista de Ventas</h4>
+                        </div>
+
+                        <!--Cuerpo de la tarjeta-->
+                        <div class="card-body">
+
+                            <!--Primer fila del listado de las ventas-->
+                            <div class="row text-center font-weight-bold">
+                                <div class="col-sm">
+                                    Código
+                                </div>
+                                <div class="col-sm-4">
+                                    Fecha
+                                </div>
+                                <div class="col-sm">
+                                    Monto Total
+                                </div>
+                                <div class="col-sm">
+
+                                </div>
+                            </div>
+
+                            <!--Filas siguientes, se genera una por cada venta (contiene js embebido)-->
+                            <% if(venta != null){ %>
+                            <% for(var i=0; i < venta.length; i++){ %>
+
+                            <div class="row text-center">
+                                <div class="col-sm-10 colSinPading">
+                                    <div class="dropdown anchomaximo py-1">
+                                        <button class="btn btn-secondary dropdown-toggle anchomaximo" type="submit"
+                                            id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                            <div class="row text-center">
+                                                <div class="col-sm">
+                                                    <%= venta[i].codigoTransaccion %>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <%= venta[i].fechaTransaccion.toLocaleDateString() %>
+                                                </div>
+                                                <div class="col-sm">
+                                                    $<%= venta[i].montoTotal %>.00
+                                                </div>
+
+                                            </div>
+                                        </button>
+                                        <div class="dropdown-menu barraDesplegable px-2"
+                                            aria-labelledby="navbarDropdownMenuLink">
+                                            <p class="font-weight-bold">Producto, cantidad y monto: </p>
+                                            <% if(detP != null){ %>
+                                            <% for(var j=0; j < detP.length; j++){ %>
+                                            <% if(venta[i].codigoTransaccion == detP[j].codigoTransaccion){ %>
+                                            <p><%= detP[j].nombreProducto %> x <%= detP[j].cantidadAdquirida %>
+                                                $<%= detP[j].precioxCantidad %>.00</p>
+                                            <% } %>
+                                            <% } %>
+                                            <% } %>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2 colSinPading py-1 ">
+                                    <a href="/vyp/ventas/<%= venta[i].codigoTransaccion %>" target="_blank"
+                                        class="btn btn-danger tamanoMaximo "><svg width="2.5em" height="2.5em" viewBox="0 0 16 16"
+                                            class="bi bi-box-arrow-up-right pt-2" fill="currentColor"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                d="M1.5 13A1.5 1.5 0 0 0 3 14.5h8a1.5 1.5 0 0 0 1.5-1.5V9a.5.5 0 0 0-1 0v4a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5V5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 0 0-1H3A1.5 1.5 0 0 0 1.5 5v8zm7-11a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V2.5H9a.5.5 0 0 1-.5-.5z" />
+                                            <path fill-rule="evenodd"
+                                                d="M14.354 1.646a.5.5 0 0 1 0 .708l-8 8a.5.5 0 0 1-.708-.708l8-8a.5.5 0 0 1 .708 0z" />
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <% } %>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+
+                <!--TARJETA DEL LADO DERECHO, FORMULARIO PARA AGREGAR UNA VENTA NUEVA-->
+                <div class="col-lg">
+
+                    <div class="card animate__animated animate__flipInY">
+
+                        <!--Cabeza de la tarjeta-->
+                        <div class="card-header bg-info text-white text-center">
+                            <h4>Venta nueva</h4>
+                        </div>
+
+                        <!--Cuerpo de la tarjeta-->
+                        <div class="card-body">
+
+                            <!--Switch para selecionar el tipo de registro que se realiza (registrar venta desde cero o modificar un presupuesto y hacerlo venta)-->
+                            <div class="row justify-content-center">
+                                <p class="pr-2">Desde el comienzo</p>
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="seleccionarFormaRegistro">
+                                    <label class="custom-control-label" for="seleccionarFormaRegistro">Con
+                                        presupuesto</label>
+                                </div>
+                            </div>
+
+                            <!--Primer div con los formularios para registrar una venta desde cero-->
+                            <div id="seccionFormularioCompleto">
+
+                                <!--Primer formulario para ir ingresando de a uno los productos con su cantidad requerida-->
+                                <form action="/inListAPV" method="POST">
+                                    <div class="form-group">
+                                        <label for="lsitaproductos">Seleccione el producto a agregar</label>
+                                        <select class="form-control" name="productoSeleccionado">
+                                            <% if(cat != null){ %>
+                                            <% for(var i=0; i < cat.length; i++){ %>
+                                            <option>
+                                                <div class="col-sm ">
+                                                    <p><%= cat[i].codigoCatalogo %> </p>
+                                                </div>
+                                                <div class="col-sm">
+                                                    <p> <%= cat[i].nombreProducto %> </p>
+                                                </div>
+                                                <div class="col-sm">
+                                                    <p> $<%= cat[i].precioProductoVenta %>.00</p>
+                                                </div>
+                                            </option>
+                                            <% } %>
+                                            <% } %>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cantiodadproductos">Cantidad del producto</label>
+                                        <input type="number" class="form-control" name="cantidadAdquirida">
+                                    </div>
+                                    <input type="submit" class="form-control btn btn-info" id="insertListAP"
+                                        value="Insertar">
+                                </form>
+
+                                <!--Segundo formulario cortito que solamente limpia el listado activo de los productos y refresca la pagina-->
+                                <form action="/delListAPV" method="POST" class="py-2">
+                                    <input type="submit" class="form-control btn btn-info" id="deleteListAP"
+                                        value="Limpiar">
+                                </form>
+
+                                <!--Tercer formulario que finalmente inicia la orden para registrar la venta nueva y detalle-->
+                                <form action="/registrarVenta" method="POST">
+
+                                    <!--Listado de los producto que se van agregando a la nueva venta-->
+                                    <div class="container p-2border border-info">
+                                        <div class="row text-center font-weight-bold">
+                                            <div class="col-sm">
+                                                Codigo
+                                            </div>
+                                            <div class="col-sm-4">
+                                                Producto
+                                            </div>
+                                            <div class="col-sm">
+                                                Cantidad
+                                            </div>
+                                            <div class="col-sm">
+                                                Monto
+                                            </div>
+                                        </div>
+                                        <% if(listAP != null){ %>
+                                        <% for(var i=0; i < listAP.length; i++){ %>
+                                        <div class="row text-center border-top border-info">
+                                            <div class="col-sm ">
+                                                <%= listAP[i].codigoCatalogo,listAP[i].nombreProducto %>
+                                            </div>
+                                            <div class="col-sm-4 ">
+                                                <%= listAP[i].nombreProducto %>
+                                            </div>
+                                            <div class="col-sm ">
+                                                <%= listAP[i].cantidadAdquirida %>
+                                            </div>
+                                            <div class="col-sm ">
+                                                <%= listAP[i].precioxCantidad %>
+                                            </div>
+                                        </div>
+                                        <% } %>
+                                        <% } %>
+                                        <div class="row text-center font-weight-bold">
+                                            <div class="col-sm">
+                                                Monto tota: $<%= montoTotal %>.00
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cantiodadproductos">Seleccione el cliente</label>
+                                        <select class="form-control" name="clienteselect">
+                                            <% if(cliente != null){ %>
+                                            <% for(var i=0; i < cliente.length; i++){ %>
+                                            <option>
+                                                <div class="col-sm">
+                                                    <p> <%= cliente[i].codigoCliente %>
+                                                        <%= cliente[i].nombreCliente %>
+                                                        <%= cliente[i].apellidoCliente %>,</p>
+                                                </div>
+                                                <div class="col-sm ">
+                                                    <p>DNI: <%= cliente[i].dniCuitCliente %> </p>
+                                                </div>
+                                            </option>
+                                            <% } %>
+                                            <% } %>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cantiodadproductos">Forma de Pago</label>
+                                        <select class="form-control" name="formapago">
+                                            <option>
+                                                <p>1 Contado</p>
+                                            </option>
+                                            <option>
+                                                <p>2 Cheque</p>
+                                            </option>
+                                            <option>
+                                                <p>3 Cheque a 30 días</p>
+                                            </option>
+                                            <option>
+                                                <p>4 Cheque a 60 días</p>
+                                            </option>
+                                            <option>
+                                                <p>5 Transferencia</p>
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cantiodadproductos">Fecha de entrega</label>
+                                        <input type="date" class="form-control" name="fechaEntrega">
+                                    </div>
+                                    <div class="form-group" style="display: none;">
+                                        <input type="text" class="form-control" name="empleado" value="<%= usuario.codigoEmpleado %>">
+                                    </div>
+                                    <input type="submit" class="form-control btn btn-primary btn-block"
+                                        id="registrarVenta" value="Registrar">
+                                </form>
+                            </div>
+
+                            <!--Segundo div para registrar una venta desde un presupuesto (modificar presupuesto)-->
+                            <div id="seccionFormularioConPresupuesto" style="display: none;">
+                                <form action="/registrarVxP" method="POST">
+
+                                    <div class="form-group">
+                                        <label for="lsitaproductos">Seleccione el presupuesto</label>
+                                        <select class="form-control" name="presupuestoSeleccionado">
+                                            <% if(presup != null){ %>
+                                            <% for(var i=0; i < presup.length; i++){ %>
+                                            <option>
+                                                <div class="col-sm ">
+                                                    <p><%= presup[i].codigoTransaccion %> </p>
+                                                </div>
+                                                <div class="col-sm">
+                                                    <p> <%= presup[i].fechaTransaccion.toLocaleDateString() %> </p>
+                                                </div>
+                                                <div class="col-sm">
+                                                    <p> $<%= presup[i].montoTotal %>.00</p>
+                                                </div>
+                                            </option>
+                                            <% } %>
+                                            <% } %>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cantiodadproductos">Seleccione el cliente</label>
+                                        <select class="form-control" name="clienteselect">
+                                            <% if(cliente != null){ %>
+                                            <% for(var i=0; i < cliente.length; i++){ %>
+                                            <option>
+                                                <div class="col-sm">
+                                                    <p> <%= cliente[i].codigoCliente %>
+                                                        <%= cliente[i].nombreCliente %>
+                                                        <%= cliente[i].apellidoCliente %>,</p>
+                                                </div>
+                                                <div class="col-sm ">
+                                                    <p>DNI: <%= cliente[i].dniCuitCliente %> </p>
+                                                </div>
+                                            </option>
+                                            <% } %>
+                                            <% } %>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cantiodadproductos">Forma de Pago</label>
+                                        <select class="form-control" name="formapago">
+                                            <option>
+                                                <p>1 Contado</p>
+                                            </option>
+                                            <option>
+                                                <p>2 Cheque</p>
+                                            </option>
+                                            <option>
+                                                <p>3 Cheque a 30 días</p>
+                                            </option>
+                                            <option>
+                                                <p>4 Cheque a 60 días</p>
+                                            </option>
+                                            <option>
+                                                <p>5 Transferencia</p>
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cantiodadproductos">Fecha de entrega</label>
+                                        <input type="date" class="form-control" name="fechaEntrega">
+                                    </div>
+                                    <input type="submit" class="form-control btn btn-primary btn-block"
+                                        id="registrarVentaxPresup" value="Registrar">
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('partials/piePagina.html'); %>
+    <script src="/js/menu.js"></script>
+    <%- include('partials/scriptsFondo.html'); %>
+</body>
+
+</html>

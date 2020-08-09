@@ -1,0 +1,42 @@
+.seccionPrincipal{
+    background: #abf0e9 url(../img/fondo1.png) no-repeat 0 0;
+    background-size: cover;
+    background-position: center;
+}
+
+.seccionPrincipalloguin{
+    background: #abf0e9 url(../img/fondo.jpg) no-repeat 0 0;
+    background-size: cover;
+    background-position: center;
+}
+
+.tarjetaloguin{
+    max-width: 670px;
+    max-height: 343px;
+}
+
+.imagenLogo{
+    max-width: 160px;
+    max-height: 39.72px;
+}
+
+.imagenLogoLoguin{
+    max-width: 300px;
+    max-height: 74.5px;
+}
+
+.anchomaximo{
+    width: 100%;
+}
+body{
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.colSinPading{
+    padding: 0%;
+}
+
+.tamanoMaximo{
+    width: 100%;
+    height: 100%;
+}

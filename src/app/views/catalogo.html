@@ -8,62 +8,73 @@
 <body>
     <%- include('partials/barraNavegacion.html'); %>
     <div class="w-100 mt-5 p-4 seccionPrincipal">
+
+        <%- include('partials/mensajes.html'); %>
+
         <div class="container pt-3">
             <div class="row justify-content-center">
-                <div class="col-sm-8">
+                <div class="col-lg-8">
                     <div class="card animate__animated animate__flipInY">
                         <div class="card-header bg-info text-white text-center">
                             <h4>Catálogo</h4>
                         </div>
                         <div class="card-body">
                             <div class="row text-center font-weight-bold">
-                                <div class="col-sm">
+                                <div class="col-sm colSinPading border-right border-info">
                                     Código
                                 </div>
-                                <div class="col-sm-2">
+                                <div class="col-sm colSinPading border-right border-info">
                                     Nombre
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-4 colSinPading border-right border-info">
                                     Descripción
                                 </div>
-                                <div class="col-sm">
+                                <div class="col-sm colSinPading border-right border-info">
                                     Precio compra
                                 </div>
-                                <div class="col-sm">
+                                <div class="col-sm colSinPading border-right border-info">
                                     Precio Venta
                                 </div>
-                                <div class="col-sm">
+                                <div class="col-sm colSinPading ">
                                     Proveedor
                                 </div>
                             </div>
                             <% if(cat != null){ %>
                             <% for(var i=0; i < cat.length; i++){ %>
                             <div class="row text-center border-top border-info">
-                                <div class="col-sm ">
+                                <div class="col-sm colSinPading border-right border-info">
                                     <%= cat[i].codigoCatalogo %>
                                 </div>
-                                <div class="col-sm-2">
+                                <div class="col-sm colSinPading border-right border-info">
                                     <%= cat[i].nombreProducto %>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-4 colSinPading border-right border-info">
                                     <%= cat[i].descripcionProducto %>
                                 </div>
-                                <div class="col-sm ">
+                                <div class="col-sm colSinPading border-right border-info">
                                     <p>$<%= cat[i].precioProductiLista %>.00</p>
                                 </div>
-                                <div class="col-sm ">
+                                <div class="col-sm colSinPading border-right border-info">
                                     <p>$<%= cat[i].precioProductoVenta %>.00</p>
                                 </div>
-                                <div class="col-sm ">
-                                    <%= cat[i].codigoProveedor %>
+
+                                <% if(prov != null){ %>
+                                <% for(var j=0; j < prov.length; j++){ %>
+                                <% if(prov[j].CodigoProveedor == cat[i].codigoProveedor) {%>
+                                <div class="col-sm colSinPading ">
+                                    <p> <%= prov[j].NombreProveedor %> </p>
                                 </div>
+                                <% } %>
+                                <% } %>
+                                <% } %>
+
                             </div>
                             <% } %>
                             <% } %>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm">
+                <div class="col-lg">
                     <div class="card animate__animated animate__flipInY">
                         <div class="card-header bg-info text-white text-center">
                             <h4>Nuevo producto</h4>
@@ -75,7 +86,7 @@
                                     <input type="text" class="form-control" id="nombreprod" name="nombreProducto">
                                 </div>
                                 <div class="form-group">
-                                    <label for="descp">Descripcion del Producto</label>
+                                    <label for="descp">Descripción del Producto</label>
                                     <input type="text" class="form-control" id="descprod" name="descripcionProducto">
                                 </div>
                                 <div class="form-group">
@@ -105,7 +116,8 @@
                                         <% } %>
                                     </select>
                                 </div>
-                                <input type="submit" class="form-control btn btn-primary btn-block" id="registrarProv">
+                                <input type="submit" class="form-control btn btn-primary btn-block" id="registrarProv"
+                                    value="Registrar">
                             </form>
                             <!--<form action="/reg" method="POST">
                                 <input type="text" name="nombreProducto" id="nomp" required>

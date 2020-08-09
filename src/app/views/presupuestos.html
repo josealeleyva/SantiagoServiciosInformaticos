@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('partials/head.html'); %>
+</head>
+
+<body>
+    <%- include('partials/barraNavegacion.html'); %>
+    <div class="w-100 mt-5 p-4 seccionPrincipal">
+
+        <%- include('partials/mensajes.html'); %>
+
+        <div class="container p-3">
+            <div class="row justify-content-center">
+
+                <!--TARJETA DEL LADO IZQUIERDO, LISTA DE PRESUPUESTOS-->
+                <div class="col-lg mb-2">
+                    <div class="card animate__animated animate__flipInY">
+
+                        <!--Cabeza de la tarjeta-->
+                        <div class="card-header bg-info text-white text-center">
+                            <h4>Lista de Presupuestos</h4>
+                        </div>
+
+                        <!--Cuerpo de la tarjeta-->
+                        <div class="card-body">
+
+                            <!--Primer fila del listado de los presupuestos-->
+                            <div class="row text-center font-weight-bold">
+                                <div class="col-sm">
+                                    Código
+                                </div>
+                                <div class="col-sm-6">
+                                    Fecha
+                                </div>
+                                <div class="col-sm">
+                                    Monto Total
+                                </div>
+                            </div>
+
+                            <!--Filas siguientes, se genera una por cada presupuesto (contiene js embebido)-->
+                            <% if(presup != null){ %>
+                            <% for(var i=0; i < presup.length; i++){ %>
+
+                            <div class="dropdown anchomaximo py-1">
+
+                                <button class="btn btn-secondary dropdown-toggle anchomaximo" type="submit"
+                                    id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                    <div class="row text-center">
+                                        <div class="col-sm">
+                                            <%= presup[i].codigoTransaccion %>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <%= presup[i].fechaTransaccion.toLocaleDateString() %>
+                                        </div>
+                                        <div class="col-sm">
+                                            $<%= presup[i].montoTotal %>.00
+                                        </div>
+                                    </div>
+                                </button>
+                                <div class="dropdown-menu barraDesplegable px-2"
+                                    aria-labelledby="navbarDropdownMenuLink">
+                                    <p class="font-weight-bold">Producto, cantidad y monto: </p>
+                                    <% if(detP != null){ %>
+                                    <% for(var j=0; j < detP.length; j++){ %>
+                                    <% if(presup[i].codigoTransaccion == detP[j].codigoTransaccion){ %>
+                                    <p><%= detP[j].nombreProducto %> x <%= detP[j].cantidadAdquirida %>
+                                        $<%= detP[j].precioxCantidad %>.00</p>
+                                    <% } %>
+                                    <% } %>
+                                    <% } %>
+
+                                </div>
+                            </div>
+
+
+                            <% } %>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+
+                <!--TARJETA DEL LADO DERECHO, FORMULARIO PARA AGREGAR UN PRESUPUESTO NUEVO-->
+                <div class="col-lg">
+                    <div class="card animate__animated animate__flipInY">
+
+                        <!--Cabeza de la tarjeta-->
+                        <div class="card-header bg-info text-white text-center">
+                            <h4>Presupuesto nuevo</h4>
+                        </div>
+
+                        <!--Cuerpo de la tarjeta-->
+                        <div class="card-body">
+
+                            <!--Primer formulario para ir ingresando de a uno los productos con su cantidad requerida-->
+                            <form action="/inListAP" method="POST">
+                                <div class="form-group">
+                                    <label for="lsitaproductos">Seleccione el producto a agregar</label>
+                                    <select class="form-control" name="productoSeleccionado">
+                                        <% if(cat != null){ %>
+                                        <% for(var i=0; i < cat.length; i++){ %>
+                                        <option>
+                                            <div class="col-sm ">
+                                                <p><%= cat[i].codigoCatalogo %> </p>
+                                            </div>
+                                            <div class="col-sm">
+                                                <p> <%= cat[i].nombreProducto %> </p>
+                                            </div>
+                                            <div class="col-sm">
+                                                <p> $<%= cat[i].precioProductoVenta %>.00</p>
+                                            </div>
+                                        </option>
+                                        <% } %>
+                                        <% } %>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cantiodadproductos">Cantidad del producto</label>
+                                    <input type="number" class="form-control" name="cantidadAdquirida">
+                                </div>
+                                <input type="submit" class="form-control btn btn-info" id="insertListAP"
+                                    value="Insertar">
+                            </form>
+
+                            <!--Segundo formulario cortito que solamente limpia el listado activo de los productos y refresca la pagina-->
+                            <form action="/delListAP" method="POST" class="py-2">
+                                <input type="submit" class="form-control btn btn-info" id="deleteListAP"
+                                    value="Limpiar">
+                            </form>
+
+                            <!--Tercer formulario que finalmente inicia la orden para registrar el nuevo presupuesto y detalle-->
+                            <form action="/registrarPresup" method="POST">
+
+                                <!--Listado de los producto que se van agregando al nuevo presupuesto-->
+                                <div class="container p-2border border-info">
+                                    <div class="row text-center font-weight-bold">
+                                        <div class="col-sm">
+                                            Codigo
+                                        </div>
+                                        <div class="col-sm-4">
+                                            Producto
+                                        </div>
+                                        <div class="col-sm">
+                                            Cantidad
+                                        </div>
+                                        <div class="col-sm">
+                                            Monto
+                                        </div>
+                                    </div>
+                                    <% if(listAP != null){ %>
+                                    <% for(var i=0; i < listAP.length; i++){ %>
+                                    <div class="row text-center border-top border-info">
+                                        <div class="col-sm ">
+                                            <%= listAP[i].codigoCatalogo,listAP[i].nombreProducto %>
+                                        </div>
+                                        <div class="col-sm-4 ">
+                                            <%= listAP[i].nombreProducto %>
+                                        </div>
+                                        <div class="col-sm ">
+                                            <%= listAP[i].cantidadAdquirida %>
+                                        </div>
+                                        <div class="col-sm ">
+                                            <%= listAP[i].precioxCantidad %>
+                                        </div>
+                                    </div>
+                                    <% } %>
+                                    <% } %>
+                                    <div class="row text-center font-weight-bold">
+                                        <div class="col-sm">
+                                            Monto tota: $<%= montoTotal %>.00
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="submit" class="form-control btn btn-primary btn-block" id="regPresup"
+                                    value="Registrar">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('partials/piePagina.html'); %>
+    <%- include('partials/scriptsFondo.html'); %>
+</body>
+
+</html>

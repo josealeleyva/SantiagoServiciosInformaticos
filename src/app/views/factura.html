@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <%- include('partials/head.html'); %>
+
+</head>
+
+<body>
+
+
+    <div class="container p-5">
+        <div class="row justify-content-center">
+            <div class="col-sm">
+                <div class="card ">
+                    <div class="card-header bg-secondary text-white text-center">
+                        <h1>Santiago Servicios Informaticos</h1>
+                        <h5>CUIT: 37-28350205-1</h5>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="row font-weight-bold">
+                            <div class="col-sm">
+                                <p>Clinete: <%= cliente[0].nombreCliente %> <%= cliente[0].apellidoCliente %></p>
+                                <p>DNI: <%= cliente[0].dniCuitCliente %></p>
+                            </div>
+                            <div class="col-sm">
+
+                            </div>
+                            <div class="col-sm">
+
+                            </div>
+                            <div class="col-sm">
+                                <p>Fecha: <%= venta[0].fechaTransaccion.toLocaleDateString() %></p>
+                            </div>
+                        </div>
+
+                        <div class="row text-center font-weight-bold border-top border-dark p-2">
+                            <div class="col-sm">
+                                <p>Codigo de Venta: <%= venta[0].codigoTransaccion %> - FACTURA TIPO A</p>
+                            </div>
+                        </div>
+
+                        <div class="row text-center font-weight-bold border-top border-dark p-2">
+                            <div class="col-sm">
+                                Código
+                            </div>
+                            <div class="col-sm-6">
+                                Producto
+                            </div>
+                            <div class="col-sm">
+                                Cantidad
+                            </div>
+                            <div class="col-sm">
+                                Subtotal
+                            </div>
+                        </div>
+
+                        <% if(detalle != null){ %>
+                        <% for(var i=0; i < detalle.length; i++){ %>
+                        <div class="row text-center">
+                            <div class="col-sm ">
+                                <p><%= detalle[i].codigoCatalogo %></p>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <p><%= detalle[i].nombreProducto %></p>
+                            </div>
+                            <div class="col-sm ">
+                                <p><%= detalle[i].cantidadAdquirida %></p>
+                            </div>
+                            <div class="col-sm ">
+                                <p>$<%= detalle[i].precioxCantidad %>.00</p>
+                            </div>
+                        </div>
+                        <% } %>
+                        <% } %>
+
+
+                        <div class="row text-center font-weight-bold ">
+                            <div class="col-sm">
+                                <p>TOTAL:</p>
+                            </div>
+                            <div class="col-sm-6">
+
+                            </div>
+                            <div class="col-sm">
+
+                            </div>
+                            <div class="col-sm">
+                                <p>$<%= venta[0].montoTotal %>.00</p>
+                            </div>
+                        </div>
+
+                        <div class="row border-top border-dark p-2">
+                            <div class="col-sm">
+                                <% if(venta[0].tipoPago == 1){ %>
+                                    <p>Pago: CONTADO</p>
+                                <% }else if(venta[0].tipoPago == 2){ %>
+                                    <p>Pago: CHEQUE</p>
+                                <% }else if(venta[0].tipoPago == 3){ %>
+                                    <p>Pago: CHEQUE a 30</p>
+                                <% }else if(venta[0].tipoPago == 4){ %>
+                                    <p>Pago: CHEQUE a 60</p>
+                                <% }else { %>
+                                    <p>Pago: TRANSFERECIA</p>
+                                <% } %>
+                            </div>
+                            <div class="col-sm">
+
+                            </div>
+                            <div class="col-sm">
+
+                            </div>
+                            <div class="col-sm">
+                                <p>Vendedor: <%= empleado[0].nombreEmpleado%> <%= empleado[0].apellidoEmpleado%></p>
+                                <p>DNI: <%= empleado[0].dniEmpleado %></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('partials/scriptsFondo.html'); %>
+</body>
+
+</html>
