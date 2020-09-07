@@ -82,9 +82,9 @@
                                 </div>
                                 <div class="col-sm-2 colSinPading py-1 ">
                                     <a href="/vyp/ventas/<%= venta[i].codigoTransaccion %>" target="_blank"
-                                        class="btn btn-danger tamanoMaximo "><svg width="2.5em" height="2.5em" viewBox="0 0 16 16"
-                                            class="bi bi-box-arrow-up-right pt-2" fill="currentColor"
-                                            xmlns="http://www.w3.org/2000/svg">
+                                        class="btn btn-danger tamanoMaximo "><svg width="2.5em" height="2.5em"
+                                            viewBox="0 0 16 16" class="bi bi-box-arrow-up-right pt-2"
+                                            fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd"
                                                 d="M1.5 13A1.5 1.5 0 0 0 3 14.5h8a1.5 1.5 0 0 0 1.5-1.5V9a.5.5 0 0 0-1 0v4a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5V5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 0 0-1H3A1.5 1.5 0 0 0 1.5 5v8zm7-11a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V2.5H9a.5.5 0 0 1-.5-.5z" />
                                             <path fill-rule="evenodd"
@@ -150,7 +150,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="cantiodadproductos">Cantidad del producto</label>
-                                        <input type="number" class="form-control" name="cantidadAdquirida">
+                                        <input type="number" class="form-control" name="cantidadAdquirida" placeholder="Cantidad">
                                     </div>
                                     <input type="submit" class="form-control btn btn-info" id="insertListAP"
                                         value="Insertar">
@@ -208,6 +208,10 @@
                                     <div class="form-group">
                                         <label for="cantiodadproductos">Seleccione el cliente</label>
                                         <select class="form-control" name="clienteselect">
+
+                                            <option>
+                                                <p>Seleccione Cliente</p>
+                                            </option>
                                             <% if(cliente != null){ %>
                                             <% for(var i=0; i < cliente.length; i++){ %>
                                             <option>
@@ -249,7 +253,8 @@
                                         <input type="date" class="form-control" name="fechaEntrega">
                                     </div>
                                     <div class="form-group" style="display: none;">
-                                        <input type="text" class="form-control" name="empleado" value="<%= usuario.codigoEmpleado %>">
+                                        <input type="text" class="form-control" name="empleado"
+                                            value="<%= usuario.codigoEmpleado %>">
                                     </div>
                                     <input type="submit" class="form-control btn btn-primary btn-block"
                                         id="registrarVenta" value="Registrar">
@@ -283,6 +288,9 @@
                                     <div class="form-group">
                                         <label for="cantiodadproductos">Seleccione el cliente</label>
                                         <select class="form-control" name="clienteselect">
+                                            <option>
+                                                <p>Seleccione Cliente</p>
+                                            </option>
                                             <% if(cliente != null){ %>
                                             <% for(var i=0; i < cliente.length; i++){ %>
                                             <option>
@@ -324,7 +332,8 @@
                                         <input type="date" class="form-control" name="fechaEntrega">
                                     </div>
                                     <div class="form-group" style="display: none;">
-                                        <input type="text" class="form-control" name="empleado" value="<%= usuario.codigoEmpleado %>">
+                                        <input type="text" class="form-control" name="empleado"
+                                            value="<%= usuario.codigoEmpleado %>">
                                     </div>
                                     <input type="submit" class="form-control btn btn-primary btn-block"
                                         id="registrarVentaxPresup" value="Registrar">

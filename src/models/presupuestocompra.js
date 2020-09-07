@@ -9,6 +9,9 @@ let presupuestocompra = {};
 const listAP = [];
 var montoTotal = 0;
 
+const listAPV = [];
+var montoTotalV = 0;
+
 
 
 
@@ -168,14 +171,14 @@ presupuestocompra.insertDV = (callback) => {
         presupuestocompra.ultimaV((err, venta)=>{
            var CT = venta[0].codigoTransaccion;
            var resultado; //ultimo valor agregado
-            for (i = 0; i < listAP.length; i++) {
+            for (i = 0; i < listAPV.length; i++) {
                 
                 var valores = {
                     codigoTransaccion: CT,
-                    codigoCatalogo: listAP[i].codigoCatalogo,
-                    nombreProducto: listAP[i].nombreProducto,
-                    cantidadAdquirida: listAP[i].cantidadAdquirida,
-                    precioxCantidad: listAP[i].precioxCantidad
+                    codigoCatalogo: listAPV[i].codigoCatalogo,
+                    nombreProducto: listAPV[i].nombreProducto,
+                    cantidadAdquirida: listAPV[i].cantidadAdquirida,
+                    precioxCantidad: listAPV[i].precioxCantidad
                 }
 
                 connection.query('INSERT INTO detallecomrpa set ?', [valores],
@@ -344,3 +347,49 @@ presupuestocompra.insertVxP = (ventaxpresupuesto, callback) => {
     };
 };
 module.exports = presupuestocompra;
+
+//inserta el elemento que viene como dato producto y devuelve la lista completa
+presupuestocompra.insertlistAPV = (datoProducto, callback) => {
+
+    var codigo = datoProducto.productoSeleccionado.split(" ");
+
+    catalogo.nombreProducto(codigo[0], (nombre) => {
+        catalogo.precioProducto(codigo[0], (precio) => {
+
+            var cantidadAdquirida = parseFloat(datoProducto.cantidadAdquirida);
+            var monto = cantidadAdquirida * precio[0].precioProductoVenta;
+            montoTotalV = montoTotalV + monto;
+
+
+            const producto = {
+                codigoCatalogo: codigo[0],
+                nombreProducto: nombre[0].nombreProducto,
+                cantidadAdquirida: cantidadAdquirida,
+                precioxCantidad: monto
+            };
+
+            listAPV.push(producto);
+            callback(listAPV);
+        });
+    });
+
+};
+
+//elimina todos los elemntos de la lista y develve la lista vacia
+presupuestocompra.deletelistAPV = (callback) => {
+    while (listAPV.length != 0) {
+        listAPV.pop();
+    }
+    montoTotalV = 0;
+    callback(listAPV);
+};
+
+//devuelve la lista
+presupuestocompra.getlistAPV = (callback) => {
+    callback(listAPV);
+};
+
+//devuelve el monto total
+presupuestocompra.getmontoTotalV = (callback) => {
+    callback(montoTotalV);
+};

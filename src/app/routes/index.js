@@ -120,14 +120,14 @@ router.post('/delListAP', urlencodedParser, (req, res) => {
 
 router.post('/registrarPresup', urlencodedParser, (req, res) => {
     PoC.getlistAP((listaAP) => {
-        if(listaAP.length > 0){
+        if (listaAP.length > 0) {
             PoC.insertP((err, result) => {
                 PoC.insertDP((err, resultado) => {
                     req.flash('guardadoCorrectamente', 'Presupuesto guardado correctamente!');
                     res.redirect('/vyp/presupuestos');
                 });
             });
-        }else {
+        } else {
             req.flash('error', 'Debe agregar al menos un producto en el presupuesto');
             res.redirect('/vyp/presupuestos');
         }
@@ -162,7 +162,7 @@ router.get('/vyp/presupuestos', isLoggedIn, (req, res) => {
 router.post('/inListAPV', urlencodedParser, (req, res) => {
     if (req.body.cantidadAdquirida.length > 0) {
         const a = req.body;
-        PoC.insertlistAP(a, (result) => {
+        PoC.insertlistAPV(a, (result) => {
             res.redirect('/vyp/ventas');
         });
     } else {
@@ -173,7 +173,7 @@ router.post('/inListAPV', urlencodedParser, (req, res) => {
 
 router.post('/delListAPV', urlencodedParser, (req, res) => {
     const a = req.body;
-    PoC.deletelistAP((result) => {
+    PoC.deletelistAPV((result) => {
         res.redirect('/vyp/ventas');
     });
 });
@@ -182,8 +182,8 @@ router.get('/vyp/ventas', isLoggedIn, (req, res) => {
 
     PoC.listP((err, presup) => {
         catalogo.list((err, cat) => {
-            PoC.getlistAP((listaAP) => {
-                PoC.getmontoTotal((montoTotal) => {
+            PoC.getlistAPV((listaAP) => {
+                PoC.getmontoTotalV((montoTotal) => {
                     PoC.listDP((err, detallePresup) => {
                         PoC.listV((err, venta) => {
                             clientes.list((err, cli) => {
@@ -228,20 +228,26 @@ router.get('/vyp/ventas/:id', isLoggedIn, (req, res) => {
 
 router.post('/registrarVenta', urlencodedParser, (req, res) => {
 
-    PoC.getlistAP((listaAP) => {
-        if(listaAP.length > 0){
-            if(req.body.fechaEntrega.length > 0){
-                PoC.insertV(req.body, (err, result) => {
-                    PoC.insertDV((err, resultado) => {
-                        req.flash('guardadoCorrectamente', 'Venta guardada correctamente!');
-                        res.redirect('/vyp/ventas');
+    PoC.getlistAPV((listaAP) => {
+        if (listaAP.length > 0) {
+            if (req.body.fechaEntrega.length > 0) {
+                if (req.body.clienteselect != 'Seleccione Cliente') {
+
+                    PoC.insertV(req.body, (err, result) => {
+                        PoC.insertDV((err, resultado) => {
+                            req.flash('guardadoCorrectamente', 'Venta guardada correctamente!');
+                            res.redirect('/vyp/ventas');
+                        });
                     });
-                });
-            }else{
+                } else {
+                    req.flash('error', 'Debe seleccionar un cliente');
+                    res.redirect('/vyp/ventas');
+                }
+            } else {
                 req.flash('error', 'Debe ingresar la fecha de entrega');
                 res.redirect('/vyp/ventas');
             }
-        }else{
+        } else {
             req.flash('error', 'Debe ingresar al menos un producto en la lista a vender');
             res.redirect('/vyp/ventas');
         }
@@ -250,15 +256,21 @@ router.post('/registrarVenta', urlencodedParser, (req, res) => {
 });
 
 router.post('/registrarVxP', urlencodedParser, (req, res) => {
-    
-    if(req.body.fechaEntrega.length > 0){
-        PoC.insertVxP(req.body, (err, result) => {
-            req.flash('guardadoCorrectamente', 'Venta guardada correctamente!');
+
+    if (req.body.fechaEntrega.length > 0) {
+        if (req.body.clienteselect != 'Seleccione Cliente') {
+            PoC.insertVxP(req.body, (err, result) => {
+                req.flash('guardadoCorrectamente', 'Venta guardada correctamente!');
+                res.redirect('/vyp/ventas');
+            });
+        } else {
+            req.flash('error', 'Debe seleccionar un cliente');
             res.redirect('/vyp/ventas');
-        });
-    }else {
+        }
+
+    } else {
         req.flash('error', 'Debe ingresar la fecha de entrega');
-            res.redirect('/vyp/ventas');
+        res.redirect('/vyp/ventas');
     }
 
 });
