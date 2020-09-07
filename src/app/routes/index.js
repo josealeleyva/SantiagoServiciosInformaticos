@@ -123,8 +123,10 @@ router.post('/registrarPresup', urlencodedParser, (req, res) => {
         if (listaAP.length > 0) {
             PoC.insertP((err, result) => {
                 PoC.insertDP((err, resultado) => {
-                    req.flash('guardadoCorrectamente', 'Presupuesto guardado correctamente!');
-                    res.redirect('/vyp/presupuestos');
+                    PoC.deletelistAP((result) => {
+                        req.flash('guardadoCorrectamente', 'Presupuesto guardado correctamente!');
+                        res.redirect('/vyp/presupuestos');
+                    });
                 });
             });
         } else {
@@ -235,8 +237,10 @@ router.post('/registrarVenta', urlencodedParser, (req, res) => {
 
                     PoC.insertV(req.body, (err, result) => {
                         PoC.insertDV((err, resultado) => {
-                            req.flash('guardadoCorrectamente', 'Venta guardada correctamente!');
-                            res.redirect('/vyp/ventas');
+                            PoC.deletelistAPV((result) => {
+                                req.flash('guardadoCorrectamente', 'Venta guardada correctamente!');
+                                res.redirect('/vyp/ventas');
+                            });
                         });
                     });
                 } else {
